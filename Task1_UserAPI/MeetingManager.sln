@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31025.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetingManager", "Task1_UserAPI\MeetingManager.csproj", "{890EE2BC-E9B5-4064-AF8E-3AF3AF91B967}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{890EE2BC-E9B5-4064-AF8E-3AF3AF91B967}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{890EE2BC-E9B5-4064-AF8E-3AF3AF91B967}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{890EE2BC-E9B5-4064-AF8E-3AF3AF91B967}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{890EE2BC-E9B5-4064-AF8E-3AF3AF91B967}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E53947D3-30B7-44FA-AA56-17F710750E7A}
+	EndGlobalSection
+EndGlobal
