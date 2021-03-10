@@ -12,11 +12,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MeetingManager.Entities.Context;
-using MeetingManager.Repositories.Abstract;
-using MeetingManager.Repositories.Implementation;
 using MeetingManager.Services.Abstract;
-using MeetingManager.Services.Implementation;
+using MeetingManager.Core.Interfaces;
+using MeetingManager.Infastructure.Context;
+using MeetingManager.Infastructure.Repositories;
+using MeetingManager.Core.Services;
+using AutoMapper;
 
 namespace MeetingManager
 {
@@ -32,11 +33,11 @@ namespace MeetingManager
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
             services.AddControllers();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

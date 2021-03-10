@@ -1,12 +1,13 @@
-﻿using MeetingManager.Entities;
-using MeetingManager.Entities.Context;
-using MeetingManager.Repositories.Abstract;
+﻿using MeetingManager.Core.Entities;
+using MeetingManager.Core.Interfaces;
+using MeetingManager.Infastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MeetingManager.Repositories.Implementation
+namespace MeetingManager.Infastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
@@ -17,27 +18,32 @@ namespace MeetingManager.Repositories.Implementation
             db = context;
         }
 
-        public User CreateUser(User userData)
+        public async Task<User> CreateUser(User userData)
         {
             var user = db.Users.Add(userData).Entity;
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return user;
         }
 
-        public void DeleteUserById(int id)
+        public async Task DeleteUserById(int id)
         {
             var user = db.Users.FirstOrDefault(u => u.Id == id);
             if (user == null) return;
             db.Users.Remove(user);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public async Task<IEnumerable<User>> GetAllUsers()
         {
-            return db.Users.ToList();
+            return await db.Users.ToListAsync();
         }
 
-        public User UpdateUser(User userData)
+        public async Task<User> GetUserById(int id)
+        {
+            return await db.Users.FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        public async Task<User> UpdateUser(User userData)
         {
             var user = db.Users.FirstOrDefault(u => u.Id == userData.Id);
             if (user == null) return null;
@@ -46,7 +52,7 @@ namespace MeetingManager.Repositories.Implementation
             user.LastName = userData.LastName;
             user.Password = userData.Password;
             db.Users.Update(user);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return user;
         }
     }
