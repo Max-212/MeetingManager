@@ -9,14 +9,14 @@ namespace MeetingManager.Core.Interfaces
 {
     public interface IUserRepository
     {
-        Task<User> CreateUser(User userData);
+        Task<User> CreateAsync(User userData);
 
-        Task DeleteUserById(int id);
+        Task DeleteAsync(int id);
 
-        Task<User> UpdateUser(User userData);
+        Task<User> UpdateAsync(User userData);
 
-        Task<IEnumerable<User>> GetAllUsers();
+        Task<IEnumerable<User>> GetAllAsync();
 
-        Task<User> GetUserById(int id);
+        Task<User> GetOneAsync(int id);
     }
 }

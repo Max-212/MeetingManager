@@ -4,18 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MeetingManager.Services.Abstract
+namespace MeetingManager.Core.Interfaces
 {
     public interface IUserService
     {
-        public Task<UserModel> CreateUser(UserModel userData);
+        public Task<UserModel> CreateAsync(UserModel userData);
 
-        public Task<IEnumerable<UserModel>> GetAllUsers();
+        public Task<IEnumerable<UserModel>> GetAllAsync();
 
-        public Task<UserModel> UpdateUser(UserModel userData);
+        public Task<UserModel> UpdateAsync(UserModel userData);
 
-        public Task DeleteUser(int id);
+        public Task DeleteAsync(int id);
 
-        public Task<UserModel> GetUserById(int id);
+        public Task<UserModel> GetOneAsync(int id);
     }
 }

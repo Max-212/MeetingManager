@@ -2,7 +2,6 @@
 using MeetingManager.Core.Entities;
 using MeetingManager.Core.Interfaces;
 using MeetingManager.Core.Models;
-using MeetingManager.Services.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,52 +13,48 @@ namespace MeetingManager.Core.Services
     public class UserService : IUserService
     {
         private IUserRepository userRepository;
+
         private IMapper mapper;
+
         public UserService(IUserRepository userRepository, IMapper mapper)
         {
             this.userRepository = userRepository;
             this.mapper = mapper;
         }
-        public async Task<UserModel> CreateUser(UserModel userData)
+
+        public async Task<UserModel> CreateAsync(UserModel userData)
         {
             userData.Password = BC.HashPassword(userData.Password);
-            var user = await userRepository.CreateUser(mapper.Map<User>(userData));
+            var user = await userRepository.CreateAsync(mapper.Map<User>(userData));
             return mapper.Map<UserModel>(user);
         }
 
-        public async Task<IEnumerable<UserModel>> GetAllUsers()
+        public async Task<IEnumerable<UserModel>> GetAllAsync()
         {
-            var users = await userRepository.GetAllUsers();
-            return GetUsersResponce(users);
+            var users = await userRepository.GetAllAsync();
+            return mapper.Map<List<UserModel>>(users);
         }
-
-        public async Task<UserModel> UpdateUser(UserModel userData)
+        
+        public async Task<UserModel> UpdateAsync(UserModel userData)
         {
-            var user = await userRepository.UpdateUser(mapper.Map<User>(userData));
-            if (user == null) return null;
-            return mapper.Map<UserModel>(user);
-        }
-
-        public async Task DeleteUser(int id)
-        {
-            await userRepository.DeleteUserById(id);
-        }
-
-        public async Task<UserModel> GetUserById(int id)
-        {
-            var user = await userRepository.GetUserById(id);
-            return mapper.Map<UserModel>(user);
-        }
-
-        private IEnumerable<UserModel> GetUsersResponce(IEnumerable<User> users)
-        {
-            var responseList = new List<UserModel>();
-            foreach (var user in users)
+            userData.Password = BC.HashPassword(userData.Password);
+            var user = await userRepository.UpdateAsync(mapper.Map<User>(userData));
+            if (user == null)
             {
-                responseList.Add(mapper.Map<UserModel>(user));
-            }
-            return responseList;
+                return null;
+            } 
+            return mapper.Map<UserModel>(user);
         }
 
+        public async Task DeleteAsync(int id)
+        {
+            await userRepository.DeleteAsync(id);
+        }
+
+        public async Task<UserModel> GetOneAsync(int id)
+        {
+            var user = await userRepository.GetOneAsync(id);
+            return mapper.Map<UserModel>(user);
+        }
     }
 }

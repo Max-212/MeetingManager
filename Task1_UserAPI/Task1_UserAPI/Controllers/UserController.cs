@@ -1,5 +1,5 @@
-﻿using MeetingManager.Core.Models;
-using MeetingManager.Services.Abstract;
+﻿using MeetingManager.Core.Interfaces;
+using MeetingManager.Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,39 +23,48 @@ namespace MeetingManager.Controllers
         [HttpPost]
         public async Task<ActionResult<UserModel>> CreateUser([FromBody] UserModel request)
         {
-
-            var user = await userService.CreateUser(request);
+            request.Id = 0;
+            var user = await userService.CreateAsync(request);
             return Ok(user);
         }
 
         [HttpGet]
         public async Task<ActionResult<List<UserModel>>> GetAllUsers()
         {
-            var users = await userService.GetAllUsers();
+            var users = await userService.GetAllAsync();
             return Ok(users);
         }
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult<UserModel>> GetUser(int id)
         {
-            var user = await userService.GetUserById(id);
-            if (user == null) return NotFound();
+            var user = await userService.GetOneAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
             return Ok(user);
         }
 
         [HttpPut]
         public async Task<ActionResult<UserModel>> UpdateUser([FromBody] UserModel request)
         {
-            if (request.Id == 0) return BadRequest("Id is required parameter");
-            var user = await userService.UpdateUser(request);
-            if (user == null) return NotFound();
+            if (request.Id == 0)
+            {
+                return BadRequest("Id is required parameter");
+            }                 
+            var user = await userService.UpdateAsync(request);
+            if (user == null)
+            {
+                return NotFound();
+            }    
             return Ok(user);
         }
 
         [HttpDelete("{id:int}")]
         public async Task<ActionResult<string>> DeleteUser(int id)
         {
-            userService.DeleteUser(id);
+            await userService.DeleteAsync(id);
             return Ok("Deleted");
         }
     }

@@ -18,35 +18,41 @@ namespace MeetingManager.Infastructure.Repositories
             db = context;
         }
 
-        public async Task<User> CreateUser(User userData)
+        public async Task<User> CreateAsync(User userData)
         {
             var user = db.Users.Add(userData).Entity;
             await db.SaveChangesAsync();
             return user;
         }
 
-        public async Task DeleteUserById(int id)
+        public async Task DeleteAsync(int id)
         {
             var user = db.Users.FirstOrDefault(u => u.Id == id);
-            if (user == null) return;
+            if (user == null)
+            {
+                return;
+            }    
             db.Users.Remove(user);
             await db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<User>> GetAllUsers()
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
             return await db.Users.ToListAsync();
         }
 
-        public async Task<User> GetUserById(int id)
+        public async Task<User> GetOneAsync(int id)
         {
             return await db.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task<User> UpdateUser(User userData)
+        public async Task<User> UpdateAsync(User userData)
         {
             var user = db.Users.FirstOrDefault(u => u.Id == userData.Id);
-            if (user == null) return null;
+            if (user == null)
+            {
+                return null;
+            }      
             user.Email = userData.Email;
             user.FirstName = userData.FirstName;
             user.LastName = userData.LastName;
