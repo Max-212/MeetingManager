@@ -10,7 +10,7 @@ namespace MeetingManager.Core.Interfaces
     {
         public Task<UserModel> CreateAsync(UserModel userData);
 
-        public Task<IEnumerable<UserModel>> GetAllAsync();
+        public Task<List<UserModel>> GetAllAsync();
 
         public Task<UserModel> UpdateAsync(UserModel userData);
 

@@ -29,7 +29,7 @@ namespace MeetingManager.Core.Services
             return mapper.Map<UserModel>(user);
         }
 
-        public async Task<IEnumerable<UserModel>> GetAllAsync()
+        public async Task<List<UserModel>> GetAllAsync()
         {
             var users = await userRepository.GetAllAsync();
             return mapper.Map<List<UserModel>>(users);

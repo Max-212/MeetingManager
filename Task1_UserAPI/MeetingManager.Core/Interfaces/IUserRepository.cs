@@ -15,7 +15,7 @@ namespace MeetingManager.Core.Interfaces
 
         Task<User> UpdateAsync(User userData);
 
-        Task<IEnumerable<User>> GetAllAsync();
+        Task<List<User>> GetAllAsync();
 
         Task<User> GetOneAsync(int id);
     }

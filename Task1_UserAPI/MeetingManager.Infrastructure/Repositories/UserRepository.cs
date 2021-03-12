@@ -36,7 +36,7 @@ namespace MeetingManager.Infastructure.Repositories
             await db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync()
+        public async Task<List<User>> GetAllAsync()
         {
             return await db.Users.ToListAsync();
         }
