@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BC = BCrypt.Net.BCrypt;
 
 namespace MeetingManager.Core.Services
 {
@@ -24,7 +23,6 @@ namespace MeetingManager.Core.Services
 
         public async Task<UserModel> CreateAsync(UserModel userData)
         {
-            userData.Password = BC.HashPassword(userData.Password);
             var user = await userRepository.CreateAsync(mapper.Map<User>(userData));
             return mapper.Map<UserModel>(user);
         }
@@ -37,7 +35,6 @@ namespace MeetingManager.Core.Services
         
         public async Task<UserModel> UpdateAsync(UserModel userData)
         {
-            userData.Password = BC.HashPassword(userData.Password);
             var user = await userRepository.UpdateAsync(mapper.Map<User>(userData));
             if (user == null)
             {
@@ -54,6 +51,12 @@ namespace MeetingManager.Core.Services
         public async Task<UserModel> GetOneAsync(int id)
         {
             var user = await userRepository.GetOneAsync(id);
+            return mapper.Map<UserModel>(user);
+        }
+
+        public async Task<UserModel> GetOneAsync(string email)
+        {
+            var user = await userRepository.GetOneAsync(email);
             return mapper.Map<UserModel>(user);
         }
     }

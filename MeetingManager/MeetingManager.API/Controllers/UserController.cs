@@ -23,7 +23,6 @@ namespace MeetingManager.Controllers
         [HttpPost]
         public async Task<ActionResult<UserModel>> CreateUser([FromBody] UserModel request)
         {
-            request.Id = 0;
             var user = await userService.CreateAsync(request);
             return Ok(user);
         }

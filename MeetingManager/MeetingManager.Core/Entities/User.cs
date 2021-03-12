@@ -19,6 +19,5 @@ namespace MeetingManager.Core.Entities
 
         public string LastName { get; set; }
 
-        public string Password { get; set; }
     }
 }

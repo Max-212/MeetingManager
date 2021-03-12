@@ -20,6 +20,10 @@ namespace MeetingManager.Infastructure.Repositories
 
         public async Task<User> CreateAsync(User userData)
         {
+            if(userData.Id != 0)
+            {
+                userData.Id = 0;
+            }
             var user = db.Users.Add(userData).Entity;
             await db.SaveChangesAsync();
             return user;
@@ -46,6 +50,11 @@ namespace MeetingManager.Infastructure.Repositories
             return await db.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
+        public async Task<User> GetOneAsync(string email)
+        {
+            return await db.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
+
         public async Task<User> UpdateAsync(User userData)
         {
             var user = db.Users.FirstOrDefault(u => u.Id == userData.Id);
@@ -56,7 +65,6 @@ namespace MeetingManager.Infastructure.Repositories
             user.Email = userData.Email;
             user.FirstName = userData.FirstName;
             user.LastName = userData.LastName;
-            user.Password = userData.Password;
             db.Users.Update(user);
             await db.SaveChangesAsync();
             return user;

@@ -31,10 +31,10 @@ namespace MeetingManager.Tests
             //TestData
             users = new List<User>()
             {
-                new User { Id = 1, Email = "Test1@mail.com", FirstName = "Test1", LastName = "Test1", Password = "HashPassword1"},
-                new User { Id = 2, Email = "Test2@mail.com", FirstName = "Test2", LastName = "Test2", Password = "HashPassword2"},
-                new User { Id = 3, Email = "Test3@mail.com", FirstName = "Test3", LastName = "Test3", Password = "HashPassword3"},
-                new User { Id = 4, Email = "Test4@mail.com", FirstName = "Test4", LastName = "Test4", Password = "HashPassword4"}
+                new User { Id = 1, Email = "Test1@mail.com", FirstName = "Test1", LastName = "Test1"},
+                new User { Id = 2, Email = "Test2@mail.com", FirstName = "Test2", LastName = "Test2"},
+                new User { Id = 3, Email = "Test3@mail.com", FirstName = "Test3", LastName = "Test3"},
+                new User { Id = 4, Email = "Test4@mail.com", FirstName = "Test4", LastName = "Test4"}
             };
 
             //MockRepo
@@ -79,11 +79,10 @@ namespace MeetingManager.Tests
         [TestMethod]
         public async Task InsertUser_ReturnsUser()
         {
-            var userData = new UserModel() { Email = "Test5@mail.com", FirstName = "Test5", LastName = "Test5", Password = "123456789" };
+            var userData = new UserModel() { Email = "Test5@mail.com", FirstName = "Test5", LastName = "Test5"};
             var userModel = await userService.CreateAsync(userData);
             Assert.AreEqual(5, users.Count);
             Assert.AreEqual(userData.FirstName, users[4].FirstName);
-            Assert.AreNotEqual("123456789", users[4].Password);
         }
 
         [TestMethod]
@@ -103,7 +102,7 @@ namespace MeetingManager.Tests
         [TestMethod]
         public async Task UpdateUser_ReturnsUser()
         {
-            var userData = new UserModel() { Id = 3, Email = "UpdateTest3@mail.com", FirstName = "UpdateTest3", LastName = "UpdateTest3", Password = "Update123456789" };
+            var userData = new UserModel() { Id = 3, Email = "UpdateTest3@mail.com", FirstName = "UpdateTest3", LastName = "UpdateTest3"};
             var userModel = await userService.UpdateAsync(userData);
             Assert.IsNotNull(userModel);
             Assert.AreEqual(userData.Email, users[2].Email);
@@ -112,7 +111,7 @@ namespace MeetingManager.Tests
         [TestMethod]
         public async Task UpdateUserByNotExistingId_ReturnsNull()
         {
-            var userData = new UserModel() { Id = 7, Email = "UpdateTest7@mail.com", FirstName = "UpdateTest7", LastName = "UpdateTest7", Password = "Update123456789" };
+            var userData = new UserModel() { Id = 7, Email = "UpdateTest7@mail.com", FirstName = "UpdateTest7", LastName = "UpdateTest7"};
             var userModel = await userService.UpdateAsync(userData);
             Assert.IsNull(userModel);
         }
@@ -159,7 +158,6 @@ namespace MeetingManager.Tests
                     user.Email = userData.Email;
                     user.FirstName = userData.FirstName;
                     user.LastName = userData.LastName;
-                    user.Password = userData.Password;
                     return user;
                 }));
         }

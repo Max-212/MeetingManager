@@ -17,5 +17,7 @@ namespace MeetingManager.Core.Interfaces
         public Task DeleteAsync(int id);
 
         public Task<UserModel> GetOneAsync(int id);
+
+        public Task<UserModel> GetOneAsync(string email);
     }
 }
