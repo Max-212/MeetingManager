@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace MeetingManager.Tests
 {
     [TestClass]
-    public class UserCrudTest
+    public class UserServiceTest
     {
         private IMapper mapper;
 
@@ -24,7 +24,9 @@ namespace MeetingManager.Tests
 
         private IUserService userService;
 
-        public UserCrudTest()
+
+        [TestInitialize]
+        public void TestInitialize()
         {
             //TestData
             users = new List<User>()
@@ -52,14 +54,14 @@ namespace MeetingManager.Tests
         }
 
         [TestMethod]
-        public async Task CanReturnAllUsers()
+        public async Task GetAllUsers_ReturnsUsers()
         { 
             var usersModels = await userService.GetAllAsync();
             Assert.AreEqual(4, usersModels.Count);
         }
 
         [TestMethod]
-        public async Task CanReturnUserById()
+        public async Task GetById_ReturnsUser()
         {
             var userModel = await userService.GetOneAsync(3);
             Assert.IsNotNull(userModel);
@@ -68,14 +70,14 @@ namespace MeetingManager.Tests
         }
 
         [TestMethod]
-        public async Task CanNotReturnUserByNotExistsId()
+        public async Task GetByNotExistingId_ReturnsNull()
         {
             var userModel = await userService.GetOneAsync(7);
             Assert.IsNull(userModel);
         }
 
         [TestMethod]
-        public async Task CanInsertUser()
+        public async Task InsertUser_ReturnsUser()
         {
             var userData = new UserModel() { Email = "Test5@mail.com", FirstName = "Test5", LastName = "Test5", Password = "123456789" };
             var userModel = await userService.CreateAsync(userData);
@@ -85,21 +87,21 @@ namespace MeetingManager.Tests
         }
 
         [TestMethod]
-        public async Task CanDeleteUser()
+        public async Task DeleteUser()
         {
             await userService.DeleteAsync(3);
             Assert.AreEqual(3, users.Count);
         }
 
         [TestMethod]
-        public async Task CanNotDeleteUserByNotExistingId()
+        public async Task DeleteUserByNotExistingId()
         {
             await userService.DeleteAsync(7);
             Assert.AreEqual(4, users.Count);
         }
 
         [TestMethod]
-        public async Task CanUpdateUser()
+        public async Task UpdateUser_ReturnsUser()
         {
             var userData = new UserModel() { Id = 3, Email = "UpdateTest3@mail.com", FirstName = "UpdateTest3", LastName = "UpdateTest3", Password = "Update123456789" };
             var userModel = await userService.UpdateAsync(userData);
@@ -108,11 +110,16 @@ namespace MeetingManager.Tests
         }
 
         [TestMethod]
-        public async Task CanNotUpdateUserByNotExistingId()
+        public async Task UpdateUserByNotExistingId_ReturnsNull()
         {
             var userData = new UserModel() { Id = 7, Email = "UpdateTest7@mail.com", FirstName = "UpdateTest7", LastName = "UpdateTest7", Password = "Update123456789" };
             var userModel = await userService.UpdateAsync(userData);
             Assert.IsNull(userModel);
+        }
+
+        private User GetUser(int id)
+        {
+            return users.FirstOrDefault(u => u.Id == id);
         }
 
         private void SetupMock(Mock<IUserRepository> mockRepository)
@@ -134,7 +141,7 @@ namespace MeetingManager.Tests
             mockRepository.Setup(mr => mr.DeleteAsync(It.IsAny<int>()))
                 .Returns((int id) => Task.Run(() =>
                 {
-                    var user = users.FirstOrDefault(u => u.Id == id);
+                    var user = GetUser(id);
                     if (user != null)
                     {
                         users.Remove(user);
@@ -144,7 +151,7 @@ namespace MeetingManager.Tests
             mockRepository.Setup(mr => mr.UpdateAsync(It.IsAny<User>()))
                 .Returns((User userData) => Task.Run(() =>
                 {
-                    var user = users.FirstOrDefault(u => u.Id == userData.Id);
+                    var user = GetUser(userData.Id);
                     if(user == null)
                     {
                         return null;
