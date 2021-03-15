@@ -4,14 +4,16 @@ using MeetingManager.Infastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MeetingManager.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210312154824_Meeting")]
+    partial class Meeting
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,39 +58,26 @@ namespace MeetingManager.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("MeetingId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("MeetingId");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("MeetingUser", b =>
-                {
-                    b.Property<int>("MeetingsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PartitipantsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MeetingsId", "PartitipantsId");
-
-                    b.HasIndex("PartitipantsId");
-
-                    b.ToTable("MeetingUser");
-                });
-
-            modelBuilder.Entity("MeetingUser", b =>
+            modelBuilder.Entity("MeetingManager.Core.Entities.User", b =>
                 {
                     b.HasOne("MeetingManager.Core.Entities.Meeting", null)
-                        .WithMany()
-                        .HasForeignKey("MeetingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Partitipants")
+                        .HasForeignKey("MeetingId");
+                });
 
-                    b.HasOne("MeetingManager.Core.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("PartitipantsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            modelBuilder.Entity("MeetingManager.Core.Entities.Meeting", b =>
+                {
+                    b.Navigation("Partitipants");
                 });
 #pragma warning restore 612, 618
         }

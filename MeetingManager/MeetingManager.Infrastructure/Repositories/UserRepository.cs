@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MeetingManager.Infastructure.Repositories
+namespace MeetingManager.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
@@ -31,7 +31,7 @@ namespace MeetingManager.Infastructure.Repositories
 
         public async Task DeleteAsync(int id)
         {
-            var user = db.Users.FirstOrDefault(u => u.Id == id);
+            var user = await db.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
             {
                 return;
@@ -57,7 +57,7 @@ namespace MeetingManager.Infastructure.Repositories
 
         public async Task<User> UpdateAsync(User userData)
         {
-            var user = db.Users.FirstOrDefault(u => u.Id == userData.Id);
+            var user = await db.Users.FirstOrDefaultAsync(u => u.Id == userData.Id);
             if (user == null)
             {
                 return null;

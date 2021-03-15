@@ -14,8 +14,9 @@ namespace MeetingManager.Core.ValidationAttributes
         {
             var userModel = (UserModel)validationContext.ObjectInstance;
             var userService = (IUserService)validationContext.GetService(typeof(IUserService));
+            var user = userService.GetOneAsync(userModel.Email).Result;
 
-            if (userService.GetOneAsync(userModel.Email).Result != null)
+            if (user != null && user.Id != userModel.Id)
             {
                 return new ValidationResult("This Email already in use");
             }

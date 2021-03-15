@@ -10,7 +10,8 @@ namespace MeetingManager.Infastructure.Context
     public class ApplicationContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        
+
+        public DbSet<Meeting> Meetings {get; set;}
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options) { }

@@ -2,24 +2,23 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
 namespace MeetingManager.Core.Entities
 {
-    public class User
+    public class Meeting
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public string Email { get; set; }
+        public DateTime From { get; set; }
+        
+        public DateTime Till { get; set; }
 
-        public string FirstName { get; set; }
+        public string Description { get; set; }
 
-        public string LastName { get; set; }
-
-        public List<Meeting> Meetings { get; set; }
+        public List<User> Partitipants { get; set; }
 
     }
 }

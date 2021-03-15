@@ -20,5 +20,6 @@ namespace MeetingManager.Core.Interfaces
         Task<User> GetOneAsync(int id);
 
         Task<User> GetOneAsync(string email);
+
     }
 }

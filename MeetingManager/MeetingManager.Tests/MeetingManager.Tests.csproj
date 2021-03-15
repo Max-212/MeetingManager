@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.1.1" />
@@ -16,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MeetingManager.API\MeetingManager.API.csproj" />
     <ProjectReference Include="..\MeetingManager.Core\MeetingManager.Core.csproj" />
     <ProjectReference Include="..\MeetingManager.Infrastructure\MeetingManager.Infrastructure.csproj" />
   </ItemGroup>
