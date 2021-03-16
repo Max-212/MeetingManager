@@ -21,7 +21,7 @@ namespace MeetingManager.Core.Services
             this.mapper = mapper;
         }
 
-        public async Task<MeetingModel> CreateAsync(MeetingModel meetingData)
+        public async Task<MeetingModel> CreateAsync(MeetingRequestModel meetingData)
         {
             var meeting = await meetingRepository.CreateAsync(mapper.Map<Meeting>(meetingData));
             return mapper.Map<MeetingModel>(meeting);
@@ -44,18 +44,7 @@ namespace MeetingManager.Core.Services
             return mapper.Map<MeetingModel>(meeting);
         }
 
-        public async Task<MeetingModel> RemovePartitipantAsync(int meetingId, int userId)
-        {
-            var meeting = await meetingRepository.RemovePartitipantAsync(meetingId, userId);
-            return mapper.Map<MeetingModel>(meeting);
-        }
-        public async Task<MeetingModel> AddPartitipantAsync(int meetingId, int userId)
-        {
-            var meeting = await meetingRepository.AddPartitipantAsync(meetingId, userId);
-            return mapper.Map<MeetingModel>(meeting);
-        }
-
-        public async Task<MeetingModel> UpdateAsync(MeetingModel meetingData)
+        public async Task<MeetingModel> UpdateAsync(MeetingRequestModel meetingData)
         {
             var meeting = await meetingRepository.UpdateAsync(mapper.Map<Meeting>(meetingData));
             return mapper.Map<MeetingModel>(meeting);

@@ -21,6 +21,6 @@ namespace MeetingManager.Core.Models
 
         public string Description { get; set; }
 
-        public List<UserModel> Partitipants { get; set; }
+        public List<UserModel> Participants { get; set; }
     }
 }

@@ -12,8 +12,9 @@ namespace MeetingManager.Core.Mappings
         public UserMappingProfile()
         {
             CreateMap<User, UserModel>();
-
             CreateMap<UserModel, User>();
+            CreateMap<int, User>().ForMember(dest => dest.Id,
+                opt => opt.MapFrom(src => src));
         }
     }
 }

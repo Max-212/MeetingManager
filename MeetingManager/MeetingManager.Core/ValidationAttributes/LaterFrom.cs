@@ -10,7 +10,7 @@ namespace MeetingManager.Core.ValidationAttributes
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var meeting = (MeetingModel)validationContext.ObjectInstance;
+            var meeting = (MeetingRequestModel)validationContext.ObjectInstance;
             if (meeting.From >= meeting.Till)
             {
                 return new ValidationResult("Till date must be later than From date");

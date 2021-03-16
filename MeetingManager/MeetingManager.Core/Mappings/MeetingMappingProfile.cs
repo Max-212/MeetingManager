@@ -12,7 +12,7 @@ namespace MeetingManager.Core.Mappings
         public MeetingMappingProfile()
         {
             CreateMap<Meeting, MeetingModel>();
-            CreateMap<MeetingModel, Meeting>();
+            CreateMap<MeetingRequestModel, Meeting>();
         }
     }
 }

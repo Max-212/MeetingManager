@@ -1,24 +1,26 @@
-﻿using System;
+﻿using MeetingManager.Core.ValidationAttributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace MeetingManager.Core.Entities
+namespace MeetingManager.Core.Models
 {
-    public class Meeting
+    public class MeetingRequestModel
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [Required]
+        [LaterNow]
         public DateTime From { get; set; }
-        
+
+        [Required]
+        [LaterFrom]
         public DateTime Till { get; set; }
 
         public string Description { get; set; }
 
-        public List<User> Participants { get; set; }
-
+        [Required]
+        public List<int> Participants { get; set; }
     }
 }

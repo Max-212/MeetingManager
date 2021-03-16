@@ -18,8 +18,5 @@ namespace MeetingManager.Core.Interfaces
 
         Task<Meeting> GetOneAsync(int id);
 
-        Task<Meeting> AddPartitipantAsync(int meetingId, int userId);
-
-        Task<Meeting> RemovePartitipantAsync(int meetingId, int userId);
     }
 }

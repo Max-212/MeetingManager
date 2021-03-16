@@ -21,7 +21,7 @@ namespace MeetingManager.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<MeetingModel>> CreateMeeting([FromBody] MeetingModel request)
+        public async Task<ActionResult<MeetingModel>> CreateMeeting([FromBody] MeetingRequestModel request)
         {
             var meeting = await meetingService.CreateAsync(request);
             return Ok(meeting);
@@ -53,7 +53,7 @@ namespace MeetingManager.API.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<MeetingModel>> UpdateMeeting([FromBody] MeetingModel request)
+        public async Task<ActionResult<MeetingModel>> UpdateMeeting([FromBody] MeetingRequestModel request)
         {
             if (request.Id == 0)
             {
@@ -66,28 +66,5 @@ namespace MeetingManager.API.Controllers
             }
             return Ok(meeting);
         }
-
-        [HttpPost("partitipants")]
-        public async Task<ActionResult<MeetingModel>> AddPartitipant([FromQuery] int meetingId, [FromQuery] int userId)
-        {
-            var meeting = await meetingService.AddPartitipantAsync(meetingId, userId);
-            if(meeting == null)
-            {
-                return NotFound();
-            }
-            return Ok(meeting);
-        }
-
-        [HttpDelete("partitipants")]
-        public async Task<ActionResult<MeetingModel>> RemovePartitipant([FromQuery] int meetingId, [FromQuery] int userId)
-        {
-            var meeting = await meetingService.RemovePartitipantAsync(meetingId, userId);
-            if (meeting == null)
-            {
-                return NotFound();
-            }
-            return Ok(meeting);
-        }
-
     }
 }

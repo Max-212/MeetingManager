@@ -12,9 +12,13 @@ namespace MeetingManager.Tests
     public class MeetingModelValidationTests
     {
         [TestMethod]
-        public async Task ValidateFromDate_ReturnsFalse()
+        public void ValidateFromDate_ReturnsFalse()
         {
-            var meetingModel = new MeetingModel() { Description = "Testqwe", From = new DateTime(2020, 3, 15, 17, 0, 0), Till = new DateTime(2022, 3, 15, 18, 0, 0) };
+            var meetingModel = new MeetingRequestModel() { Description = "Testqwe",
+                From = new DateTime(2020, 3, 15, 17, 0, 0),
+                Till = new DateTime(2022, 3, 15, 18, 0, 0),
+                Participants = new List<int>()
+            };
             var context = new System.ComponentModel.DataAnnotations.ValidationContext(meetingModel);
             var results = new List<ValidationResult>();
             var isValid = Validator.TryValidateObject(meetingModel, context, results, true);
@@ -22,19 +26,27 @@ namespace MeetingManager.Tests
         }
 
         [TestMethod]
-        public async Task ValidateTillDate_ReturnsFalse()
+        public void ValidateTillDate_ReturnsFalse()
         {
-            var meetingModel = new MeetingModel() { Description = "Testqwe", From = new DateTime(2022, 3, 15, 17, 0, 0), Till = new DateTime(2022, 3, 15, 16, 0, 0) };
+            var meetingModel = new MeetingRequestModel() { Description = "Testqwe",
+                From = new DateTime(2022, 3, 15, 17, 0, 0),
+                Till = new DateTime(2022, 3, 15, 16, 0, 0),
+                Participants = new List<int>()
+            };
             var context = new System.ComponentModel.DataAnnotations.ValidationContext(meetingModel);
             var results = new List<ValidationResult>();
             var isValid = Validator.TryValidateObject(meetingModel, context, results, true);
             Assert.IsFalse(isValid);
         }
-
+        
         [TestMethod]
-        public async Task ValidateModel_ReturnsTrue()
+        public void ValidateModel_ReturnsTrue()
         {
-            var meetingModel = new MeetingModel() { Description = "Testqwe", From = new DateTime(2022, 3, 15, 17, 0, 0), Till = new DateTime(2022, 3, 15, 18, 0, 0) };
+            var meetingModel = new MeetingRequestModel() { Description = "Testqwe",
+                From = new DateTime(2022, 3, 15, 17, 0, 0),
+                Till = new DateTime(2022, 3, 15, 18, 0, 0),
+                Participants = new List<int>()
+            };
             var context = new System.ComponentModel.DataAnnotations.ValidationContext(meetingModel);
             var results = new List<ValidationResult>();
             var isValid = Validator.TryValidateObject(meetingModel, context, results, true);

@@ -21,7 +21,15 @@ namespace MeetingManager.Infrastructure.Repositories
 
         public async Task<Meeting> CreateAsync(Meeting meetingData)
         {
-            var meeting = db.Meetings.Add(meetingData).Entity;
+            var meeting = new Meeting()
+            {
+                Description = meetingData.Description,
+                From = meetingData.From,
+                Till = meetingData.Till,
+                Participants = new List<User>()
+            };
+            db.Meetings.Add(meeting);
+            await addParticipants(meeting, meetingData.Participants);
             await db.SaveChangesAsync();
             return meeting;
         }
@@ -39,49 +47,17 @@ namespace MeetingManager.Infrastructure.Repositories
 
         public async Task<List<Meeting>> GetAllAsync()
         {
-            return await db.Meetings.Include(m => m.Partitipants).ToListAsync();
+            return await db.Meetings.Include(m => m.Participants).ToListAsync();
         }
 
         public async Task<Meeting> GetOneAsync(int id)
         {
-            return await getMeetingWithPartitipants(id);
-        }
-
-        public async Task<Meeting> RemovePartitipantAsync(int meetingId, int userId)
-        {
-            var meeting = await getMeetingWithPartitipants(meetingId);
-            if(meeting != null)
-            {
-                var user = meeting.Partitipants.FirstOrDefault(p => p.Id == userId);
-                if(user != null)
-                {
-                    meeting.Partitipants.Remove(user);
-                }
-                await db.SaveChangesAsync();
-                return meeting;
-            }
-            return null;
-        }
-
-        public async Task<Meeting> AddPartitipantAsync(int meetingId, int userId)
-        {
-            var meeting = await getMeetingWithPartitipants(meetingId);
-            if(meeting != null )
-            {
-                var user = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                if(user != null && !meeting.Partitipants.Contains(user))
-                {
-                    meeting.Partitipants.Add(user);
-                }
-                await db.SaveChangesAsync();
-                return meeting;
-            }
-            return null;
+            return await getMeetingWithParticipants(id);
         }
 
         public async Task<Meeting> UpdateAsync(Meeting meetingData)
         {
-            var meeting = await db.Meetings.FirstOrDefaultAsync(m => m.Id == meetingData.Id);
+            var meeting = await getMeetingWithParticipants(meetingData.Id);
             if (meeting == null)
             {
                 return null;
@@ -89,16 +65,30 @@ namespace MeetingManager.Infrastructure.Repositories
             meeting.Description = meetingData.Description;
             meeting.From = meetingData.From;
             meeting.Till = meetingData.Till;
+            meeting.Participants.Clear();
+            await addParticipants(meeting, meetingData.Participants);
             db.Meetings.Update(meeting);
             await db.SaveChangesAsync();
             return meeting;
         }
         
-        private async Task<Meeting> getMeetingWithPartitipants(int id)
+        private async Task<Meeting> getMeetingWithParticipants(int id)
         {
-            return await db.Meetings.Include(m => m.Partitipants)
+            return await db.Meetings.Include(m => m.Participants)
                 .FirstOrDefaultAsync(m => m.Id == id);
         }
 
+        private async Task<Meeting> addParticipants(Meeting meeting, List<User> participants)
+        {
+            foreach (var participant in participants)
+            {
+                var user = await db.Users.FirstOrDefaultAsync(u => u.Id == participant.Id);
+                if (user != null && !meeting.Participants.Contains(user))
+                {
+                    meeting.Participants.Add(user);
+                }
+            }
+            return meeting;
+        }
     }
 }
