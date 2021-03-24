@@ -1,6 +1,6 @@
 <script>
 import MeetingForm from '../Forms/MeetingForm';
-import axios from 'axios';
+import api from '../../api/api'
 
 export default {
     data()
@@ -17,7 +17,7 @@ export default {
         createMeeting(meeting)
         {
 
-            axios.post("https://localhost:44343/api/meetings/",
+            api.meeting.Create(
             {
                 From: meeting.from,
                 Till: meeting.till,

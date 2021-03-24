@@ -1,27 +1,29 @@
 <script>
-import axios from 'axios'
+import api from '../../api/api'
 import UserDropdownItem from '../Content/UserDropdownItem';
 import Participant from '../Content/Participant';
 
 export default {
+
     data()
     {
         return{
-            from: this.meeting.from,
-            till: this.meeting.till,
-            description: this.meeting.description,
+            from: '',
+            till: '',
+            description: '',
             participants : [],
             users: [],
-            errorMessage: '',
-        } 
+            validationsMessages: {}
+        }
     },
+
     props:
     {
         meeting:
         {
             type: Object,
             default(){
-                return {}
+                return null
             } 
         },
         errors:{
@@ -31,23 +33,25 @@ export default {
             }
         }
     },
+
     components:
     {
         UserDropdownItem,
         Participant
     },
+
     mounted()
     {
-        if(this.meeting && this.meeting.participants)
+        if(this.meeting)
         {
             this.participants = this.meeting.participants;
+            this.from = this.meeting.from;
+            this.till = this.meeting.till;
+            this.description = this.meeting.description;
         }
         this.fetchUsers();
     },
-    beforeUpdate()
-    {
-        this.generateErrorMessage();
-    },
+
     methods:
     {
         addParticipant(user)
@@ -55,14 +59,6 @@ export default {
             if(!this.participants.find(participant => participant.id === user.id))
             {
                 this.participants.push(user);
-            }
-        },
-
-        generateErrorMessage()
-        {
-            if(Object.keys(this.errors)[0])
-            {
-                this.errorMessage = this.errors[Object.keys(this.errors)[0]][0]
             }
         },
 
@@ -76,12 +72,19 @@ export default {
 
         validateFields()
         {
-            if(this.from.length === 0 || this.till.length === 0)
+            this.validationsMessages = {}
+            let result = true;
+            if(this.from.length === 0)
             {
-                this.errorMessage = "Wrong Format in From or Till field"
-                return false;
+                this.validationsMessages.From = "This field can not be empty"
+                result = false;
             }
-            return true;
+            if(this.till.length === 0)
+            {
+                this.validationsMessages.Till = "This field can not be empty"
+                result = false;
+            }
+            return result;
         },
 
         saveMeeting()
@@ -105,7 +108,7 @@ export default {
 
         fetchUsers()
         {
-            axios.get("https://localhost:44343/api/users/")
+            api.user.GetAll()
             .then(response =>
             {
                 this.users = response.data;
@@ -126,10 +129,14 @@ export default {
             <form class="d-flex flex-column align-items-center flex-fill p-3">
                 <div class="d-flex flex-column mb-4 w-100">
                     <span class="d-block">From date</span>
+                    <span class="d-block text-danger" v-if="errors.From">{{errors.From[0]}}</span>
+                    <span class="d-block text-danger" v-if="validationsMessages.From">{{validationsMessages.From}}</span>
                     <input type="datetime-local" class="form-control w-100" v-model="from"/>
                 </div>
                 <div class="d-flex flex-column mb-4 w-100">
                     <span class="d-block">Till date</span>
+                    <span class="d-block text-danger" v-if="errors.Till">{{errors.Till[0]}}</span>
+                    <span class="d-block text-danger" v-if="validationsMessages.Till">{{validationsMessages.Till}}</span>
                     <input type="datetime-local" class="form-control w-100" v-model="till"/>
                 </div>
                 <div class="form-group mb-4 w-100">
@@ -161,11 +168,6 @@ export default {
             @click="saveMeeting"/>
         </div>
 
-        <div v-if="errorMessage" className="form-group">
-            <div className="alert alert-danger" role="alert">
-                {{errorMessage}}
-            </div>
-        </div>
     </div>
 
 </template>

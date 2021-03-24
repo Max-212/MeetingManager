@@ -46,7 +46,8 @@ export default {
 
             <div class="fw-bold fs-1 mb-4">User</div>
 
-            <div class="form-group mb-4 px-3">
+            <div class="d-flex flex-column mb-4 w-100 px-3">
+                <span class="d-block text-danger" v-if="errorMessage">{{errorMessage}}</span>
                 <input type="input" class="form-control" placeholder='Email' v-model="email">
             </div>
 
@@ -61,12 +62,6 @@ export default {
             <div class="form-outline mb-4 p-3 w-100">
                 <input class="btn btn-success w-100" type='submit' value='Save'
                 @click="saveUser"/>
-            </div>
-
-            <div v-if="errorMessage" className="form-group">
-                <div className="alert alert-danger" role="alert">
-                    {{errorMessage}}
-                </div>
             </div>
 
         </div>

@@ -1,5 +1,5 @@
 <script>
-import axios from "axios"
+import api from '../../api/api'
 import MeetingView from './MeetingView.vue';
 
 export default {
@@ -24,7 +24,7 @@ export default {
     {
         getAllMeetings()
         {
-            axios.get("https://localhost:44343/api/meetings/")
+            api.meeting.GetAll()
             .then(response =>
             {
                 this.meetings = response.data;
@@ -33,7 +33,7 @@ export default {
 
         deleteMeeting(id)
         {
-           axios.delete(`https://localhost:44343/api/meetings/${id}`)
+           api.meeting.Delete(id)
            .then(() =>
            {
                this.getAllMeetings();

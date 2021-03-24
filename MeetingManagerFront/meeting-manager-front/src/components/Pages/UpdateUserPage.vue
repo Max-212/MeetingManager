@@ -1,5 +1,5 @@
 <script>
-    import axios from 'axios';
+    import api from '../../api/api'
     import UserForm from '../Forms/UserForm';
 
     export default {
@@ -23,8 +23,7 @@
         {
             updateUser(userData)
             {
-                console.log(userData);
-                axios.put(`https://localhost:44343/api/users/`,
+                api.user.Update(
                 {
                     Id : Number.parseInt(this.$route.params.id),
                     Email : userData.email,
@@ -44,7 +43,7 @@
 
             getUser()
             {
-                axios.get(`https://localhost:44343/api/users/${this.$route.params.id}`)
+                api.user.GetOne(this.$route.params.id)
                 .then((response) =>
                 {
                     this.user = response.data; 

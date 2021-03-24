@@ -1,5 +1,5 @@
 <script>
-    import axios from 'axios';
+    import api from '../../api/api'
     import UserForm from '../Forms/UserForm';
 
     export default {
@@ -18,7 +18,7 @@
         {
             createUser(user)
             {
-                axios.post("https://localhost:44343/api/users/",
+                api.user.Create(
                 {
                     Email : user.email,
                     FirstName : user.firstName,

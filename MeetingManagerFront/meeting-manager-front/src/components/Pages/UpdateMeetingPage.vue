@@ -1,6 +1,6 @@
 <script>
 import MeetingForm from '../Forms/MeetingForm'
-import axios from 'axios'
+import api from '../../api/api'
 
 export default {
     data(){
@@ -21,7 +21,7 @@ export default {
     {
         getMeeting()
         {
-            axios.get(`https://localhost:44343/api/meetings/${this.$route.params.id}`)
+            api.meeting.GetOne(this.$route.params.id)
             .then(response =>
             {
                 this.meeting = response.data
@@ -30,7 +30,7 @@ export default {
 
         updateMeeting(meetingData)
         {
-            axios.put(`https://localhost:44343/api/meetings/`,
+            api.meeting.Update(
             {
                 Id : Number.parseInt(this.$route.params.id),
                 From: meetingData.from,
