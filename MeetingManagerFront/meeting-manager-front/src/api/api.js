@@ -9,6 +9,11 @@ const api =
             return axios.get(`https://localhost:44343/api/users?pageNumber=${pageNumber}&perPage=${perPage}`);
         },
 
+        GetAll()
+        {
+            return axios.get("https://localhost:44343/api/users/all")
+        },
+
         Delete(id)
         {
             return axios.delete(`https://localhost:44343/api/users/${id}`);

@@ -16,7 +16,9 @@ namespace MeetingManager.Core.Interfaces
 
         Task<User> UpdateAsync(User userData);
 
-        Task<Page<User>> GetPageAsync(int pageNumber, int perPage);
+        Task<Page<User>> GetUsersAsync(int pageNumber, int perPage);
+
+        Task<List<User>> GetUsersAsync();
 
         Task<User> GetOneAsync(int id);
 

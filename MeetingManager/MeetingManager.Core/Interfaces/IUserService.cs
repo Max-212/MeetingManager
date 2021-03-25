@@ -10,7 +10,9 @@ namespace MeetingManager.Core.Interfaces
     {
         public Task<UserModel> CreateAsync(UserModel userData);
 
-        public Task<Page<UserModel>> GetPageAsync(int pageNumber, int perPage);
+        public Task<Page<UserModel>> GetUsersAsync(int pageNumber, int perPage);
+
+        public Task<List<UserModel>> GetUsersAsync();
 
         public Task<UserModel> UpdateAsync(UserModel userData);
 

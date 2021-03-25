@@ -155,7 +155,7 @@ export default {
                         <button class="btn btn-lg btn-secondary dropdown-toggle w-100" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                             Add Participant
                         </button>
-                        <div v-if="users" class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1">
+                        <div v-if="users" class="dropdown-menu w-100 overflow-scroll" aria-labelledby="dropdownMenuButton1">
                             <UserDropdownItem @click="addParticipant(user)" v-for="user in users" :key="user.id" :user="user"></UserDropdownItem>
                         </div>
                     </div>

@@ -41,7 +41,7 @@ namespace MeetingManager.Infrastructure.Repositories
             await db.SaveChangesAsync();
         }
 
-        public async Task<Page<User>> GetPageAsync(int pageNumber, int perPage)
+        public async Task<Page<User>> GetUsersAsync(int pageNumber, int perPage)
         {
             var page = new Page<User>();
             page.Data = await db.Users.Skip((pageNumber - 1) * perPage)
@@ -50,6 +50,11 @@ namespace MeetingManager.Infrastructure.Repositories
             page.TotalCount = await db.Users.CountAsync();
             page.PerPage = perPage;
             return page;
+        }
+
+        public async Task<List<User>> GetUsersAsync()
+        {
+            return await db.Users.ToListAsync();
         }
 
         public async Task<User> GetOneAsync(int id)

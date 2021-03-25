@@ -1,4 +1,4 @@
-                                                                                                                                            using AutoMapper;
+using AutoMapper;
 using MeetingManager.Core.Entities;
 using MeetingManager.Core.Interfaces;
 using MeetingManager.Core.Models;
@@ -27,12 +27,18 @@ namespace MeetingManager.Core.Services
             return mapper.Map<UserModel>(user);
         }
 
-        public async Task<Page<UserModel>> GetPageAsync(int pageNumber, int perPage)
+        public async Task<Page<UserModel>> GetUsersAsync(int pageNumber, int perPage)
         {
-            var users = await userRepository.GetPageAsync(pageNumber, perPage);
+            var users = await userRepository.GetUsersAsync(pageNumber, perPage);
             return mapper.Map<Page<UserModel>>(users);
         }
         
+        public async Task<List<UserModel>> GetUsersAsync()
+        {
+            var users = await userRepository.GetUsersAsync();
+            return mapper.Map<List<UserModel>>(users);
+        }
+
         public async Task<UserModel> UpdateAsync(UserModel userData)
         {
             var user = await userRepository.UpdateAsync(mapper.Map<User>(userData));
