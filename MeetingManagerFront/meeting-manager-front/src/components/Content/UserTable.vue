@@ -125,7 +125,7 @@ export default {
         font-weight: 800;
     }
 
-    .user-table__column:hover
+    .user-table thead th:hover
     {
         cursor: pointer;
         background: rgba(175, 175, 175, 0.349);

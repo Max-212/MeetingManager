@@ -1,5 +1,6 @@
 ﻿using MeetingManager.Core.Entities;
 using MeetingManager.Core.Interfaces;
+using MeetingManager.Core.Models;
 using MeetingManager.Infastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -40,9 +41,15 @@ namespace MeetingManager.Infrastructure.Repositories
             await db.SaveChangesAsync();
         }
 
-        public async Task<List<User>> GetAllAsync()
+        public async Task<Page<User>> GetPageAsync(int pageNumber, int perPage)
         {
-            return await db.Users.ToListAsync();
+            var page = new Page<User>();
+            page.Data = await db.Users.Skip((pageNumber - 1) * perPage)
+                .Take(perPage).ToListAsync();
+            page.PageNumber = pageNumber;
+            page.TotalCount = await db.Users.CountAsync();
+            page.PerPage = perPage;
+            return page;
         }
 
         public async Task<User> GetOneAsync(int id)

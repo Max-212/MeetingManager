@@ -1,5 +1,6 @@
 ﻿
 using MeetingManager.Core.Entities;
+using MeetingManager.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace MeetingManager.Core.Interfaces
 
         Task<User> UpdateAsync(User userData);
 
-        Task<List<User>> GetAllAsync();
+        Task<Page<User>> GetPageAsync(int pageNumber, int perPage);
 
         Task<User> GetOneAsync(int id);
 

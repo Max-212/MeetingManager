@@ -25,49 +25,28 @@ export default {
 
     mounted() 
     {
-        this.getAllUsers()
-        
-        
+        this.getUsersPage()
     },
 
     methods:
     {
-        getAllUsers()
-        {
-            api.user.GetAll()
-            .then(response =>
-            {
-                this.users = response.data;
-                this.countOfUsers = response.data.length;
-                this.getUsersPage();
-            })
-        },
         userDelete(id)
         {
             api.user.Delete(id)
             .then(() =>
             {
-                this.getAllUsers();
+                this.getUsersPage();
             })
         },
 
         getUsersPage()
         {
-            let users = [];
-            let startPosition = 0
-            if(this.currentPage !== 1)
+            api.user.GetPage(this.currentPage, this.perPage)
+            .then(response =>
             {
-                startPosition = (this.currentPage - 1)*this.perPage;
-            }
-            for(let i = startPosition; i < this.countOfUsers; i++)
-            {
-                if(i === startPosition + this.perPage)
-                {
-                    break;
-                }
-                users.push(this.users[i]);
-            }
-            this.usersPage = users;
+                this.usersPage = response.data.data;
+                this.countOfUsers = response.data.totalCount;
+            })
         }
     }
 }

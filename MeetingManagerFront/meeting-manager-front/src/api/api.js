@@ -4,9 +4,9 @@ const api =
 {
     user : 
     {
-        GetAll()
+        GetPage(pageNumber, perPage)
         {
-            return axios.get("https://localhost:44343/api/users/")
+            return axios.get(`https://localhost:44343/api/users?pageNumber=${pageNumber}&perPage=${perPage}`);
         },
 
         Delete(id)

@@ -28,10 +28,18 @@ namespace MeetingManager.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<UserModel>>> GetAllUsers()
+        public async Task<ActionResult<Page<UserModel>>> GetPageUsers(int pageNumber, int perPage)
         {
-            var users = await userService.GetAllAsync();
-            return Ok(users);
+            if(pageNumber <= 0)
+            {
+                return BadRequest("Wrong page number");
+            }
+            if(perPage <=0)
+            {
+                return BadRequest("perPage must be more than 0");
+            }
+            var page = await userService.GetPageAsync(pageNumber, perPage);
+            return Ok(page);
         }
 
         [HttpGet("{id:int}")]

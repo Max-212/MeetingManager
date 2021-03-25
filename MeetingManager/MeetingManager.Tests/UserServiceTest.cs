@@ -54,13 +54,6 @@ namespace MeetingManager.Tests
         }
 
         [TestMethod]
-        public async Task GetAllUsers_ReturnsUsers()
-        { 
-            var usersModels = await userService.GetAllAsync();
-            Assert.AreEqual(4, usersModels.Count);
-        }
-
-        [TestMethod]
         public async Task GetById_ReturnsUser()
         {
             var userModel = await userService.GetOneAsync(3);
@@ -123,9 +116,6 @@ namespace MeetingManager.Tests
 
         private void SetupMock(Mock<IUserRepository> mockRepository)
         {
-            mockRepository.Setup(mr => mr.GetAllAsync())
-                .Returns(Task.Run(() => users));
-
             mockRepository.Setup(mr => mr.GetOneAsync(It.IsAny<int>()))
                 .Returns((int id) => Task.Run(() => users.FirstOrDefault(u => u.Id == id)));
 

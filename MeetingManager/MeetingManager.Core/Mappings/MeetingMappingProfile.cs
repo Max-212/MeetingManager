@@ -11,6 +11,7 @@ namespace MeetingManager.Core.Mappings
     {
         public MeetingMappingProfile()
         {
+            CreateMap<Page<User>, Page<UserModel>>();
             CreateMap<Meeting, MeetingModel>();
             CreateMap<MeetingRequestModel, Meeting>();
         }
