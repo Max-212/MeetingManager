@@ -17,7 +17,8 @@ using MeetingManager.Infastructure.Context;
 using MeetingManager.Infrastructure.Repositories;
 using MeetingManager.Core.Services;
 using AutoMapper;
-
+using MeetingManager.Core.Cache;
+using MeetingManager.Core.Entities;
 
 namespace MeetingManager
 {
@@ -41,7 +42,8 @@ namespace MeetingManager
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMeetingRepository, MeetingRepository>();
             services.AddScoped<IMeetingService, MeetingService>();
-            services.AddMemoryCache();
+            services.AddSingleton<IMemoryCache<List<Meeting>>, InMemotyCache<List<Meeting>>>();
+            services.AddScoped<MeetingCache>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
